@@ -1,4 +1,4 @@
-import random
+import random, math
 
 class fp(object):
     def __init__(self, north=None, east=None, alt=None, vel=None, leg=None, maxGs=None, rph=None, successRadius=None, wayp=None):
@@ -13,7 +13,7 @@ class fp(object):
         self.wayp = []
 
 def calcDist3D(curLoc, curWayp):
-    return 0
+    return math.sqrt((curLoc[0] - curWayp[0])**2 + (curLoc[1] - curWayp[1]) ** 2 + (curLoc[2] - curWayp[2]) ** 2)
 
 def updateACPos(curLoc, newState):
     return 0
@@ -28,9 +28,9 @@ def getNewACState(fp, curState, curLoc):
     newHdg, newRoll = getNewHeading(fp, curState, curLoc)
     newPitch = getNewPitch(fp, curState, curLoc)
     newVel = curState[1]
-
     newState = [newVel, newRoll, newPitch, newHdg]
     newLoc = updateACPos(curLoc, newState)
+    return newState, newLoc
 
 def generateRandomWaypoints():
     list_of_waypoints = []
@@ -57,6 +57,7 @@ curState = [0, 0, 0, 0] #velocity, roll, pitch, heading
 curWayp = temp.wayp[0]
 curLoc = [0, 0, 0] #posX, posY, alt
 c = 0
+
 while c < iteration_num:
 
     #determine if the desired waypoint has been reached
