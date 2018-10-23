@@ -17,11 +17,11 @@ newRoll = atan((currVel ** 2)/ (turnRadius * accel);
 ##No need to change heading if already on course
 if angleBtwn == 0:
 	newHdg = currHdg;
-	return
+	return;
 
 ##Calculate heading chagne based on current velocity and turn radius
 distToTravel = currVel * sd.timeDelta;
-hdgChange = distToTravel / (2*PI*turnRadius) * 360;
+hdgChange = distToTravel / (2*pi*turnRadius) * 360;
 
 ##Prevent current heading from overshooting desired heading
 if hdgChange > abs(angleBtwn):
