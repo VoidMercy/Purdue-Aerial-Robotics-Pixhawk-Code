@@ -1,4 +1,4 @@
-from * import math
+import math
 
 def getNewHeading(fp, sd, currState, currLoc)
 
