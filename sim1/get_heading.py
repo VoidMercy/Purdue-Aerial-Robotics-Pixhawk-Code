@@ -20,7 +20,7 @@ def getHeading(loc1, loc2):
 	elif xComp == 0:
 		heading = (yComp / abs(yComp)) * 90
 	else:
-		heading = degrees(atan(radians(yComp / xComp)))
+		heading = degrees(atan(yComp / xComp))
 
 	if xComp < 0:
 		heading += 180
@@ -39,10 +39,10 @@ def getNewHeading(fp, deltaT, currState, currLoc):
 	
 	#Calculate aircraft turn radius and roll
 	turnRadius = currVel ** 2 / float(fp.maxGs)
-	newRoll = degrees(atan(radians(currVel ** 2 / (turnRadius * GRAV_ACCEL))))
+	newRoll = degrees(atan(currVel ** 2 / (turnRadius * GRAV_ACCEL)))
 	
 	if angleBtwn == 0:
-		newHdg = currHdg
+		return currHdg, newRoll
 		
 	distToTravel = currVel * deltaT
 	hdgChange = distToTravel / (2 * pi * turnRadius) * 360

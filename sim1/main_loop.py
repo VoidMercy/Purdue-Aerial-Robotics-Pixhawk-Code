@@ -30,26 +30,29 @@ def getNewACState(fp, curState, curLoc, deltaT):
 
 def generateRandomWaypoints():
     list_of_waypoints = []
-    for i in range(1):
+    for i in range(4):
         #north, east, alt
-        tmp = [random.randint(0, 100), random.randint(0, 100), random.randint(0, 100)]
+        tmp = [random.randint(800, 1000), random.randint(800, 1000), random.randint(800, 1000)]
         list_of_waypoints.append(tmp)
     return list_of_waypoints
 
 temp = fp()
-temp.north = [0, 0, 100, 0]
+temp.north = [0, 100, 100, 0]
 temp.east = [0, 100, 100, 0]
 temp.alt = [0, 100, 50, 0]
 temp.vel = [20, 20, 20, 20]
-temp.rph = [1, 1, 1]
-temp.wayp = generateRandomWaypoints()
-temp.leg = 0
+temp.rph = [0, 0, 0]
+#temp.wayp = generateRandomWaypoints()
+for i in range(4):
+    temp.wayp.append([temp.north[i], temp.east[i], temp.alt[i]])
+print temp.wayp
+temp.leg = 1
 temp.maxGs = 50
 temp.successRadius = 5
 
 deltaT = 0.05
 curState = [temp.vel[temp.leg], temp.rph[0], temp.rph[1], temp.rph[2]] #velocity, roll, pitch, heading
-curWayp = temp.wayp[0]
+curWayp = temp.wayp[temp.leg]
 curLoc = [0, 0, 0] #posX, posY, alt
 c = 0
 
@@ -62,7 +65,7 @@ ax = fig.add_subplot(111, projection='3d')
 xs, ys, zs = [], [], []
 ax.scatter(curLoc[0], curLoc[1], curLoc[2], c=(0, 1, 0))
 
-while c < 20:
+while c < 100:
     #determine if the desired waypoint has been reached
     if calcDist3D(curLoc, curWayp) <= temp.successRadius:
         #yay we're within the waypoint
@@ -90,9 +93,9 @@ ax.set_xlabel('X Pos')
 ax.set_ylabel('Y Pos')
 ax.set_zlabel('Altitude')
 
-ax.scatter(xs, ys, zs)
-
 for i in temp.wayp:
     ax.scatter([i[0]], [i[1]], [i[2]], c=(1, 0, 0))
+
+ax.scatter(xs, ys, zs)
 
 plt.show()

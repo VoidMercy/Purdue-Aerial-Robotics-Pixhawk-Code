@@ -13,11 +13,12 @@ def updateACPos(currLoc, currState, timeDelta):
     
     # Calculate the unit vector pointing in the direction defined by the
     # current heading and current pitch
-    dirVec = [math.sin(math.radians(currPitch)) * math.cos(math.radians(currHdg)), math.sin(math.radians(currPitch)) * math.sin(math.radians(currHdg)), math.cos(math.radians(currPitch))]
+    dirVec = [math.sin(math.radians(currPitch)) * math.cos(math.radians(currHdg)), 
+            math.sin(math.radians(currPitch)) * math.sin(math.radians(currHdg)), 
+            math.cos(math.radians(currPitch))]
     
     #Update current AC position
     for i in range(len(dirVec)):
-        dirVec[i] = math.degrees(dirVec[i])
         newPos[i] += dirVec[i] * currVel * timeDelta
 
     return newPos

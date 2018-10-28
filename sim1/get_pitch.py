@@ -7,7 +7,10 @@ def getNewPitch(fp, deltaT, currState, currLoc):
 	curVel = currState[0]
 	curPitch = currState[2]
 	desWayp = fp.wayp[fp.leg]
-	desPitch = degrees(atan(radians((desWayp[2] - currLoc[2]) / calcDist2D(currLoc, desWayp))))
+	if calcDist2D(currLoc, desWayp) == 0:
+		return curPitch
+	#print "altitude difference: " + str((desWayp[2] - currLoc[2]) /  calcDist2D(currLoc, desWayp))
+	desPitch = degrees(atan((desWayp[2] - currLoc[2]) / calcDist2D(currLoc, desWayp)))
 	angleBtwn = float(desPitch - curPitch)
 
 	turnRadius = curVel ** 2 / float(fp.maxGs)
@@ -21,6 +24,5 @@ def getNewPitch(fp, deltaT, currState, currLoc):
 
 	if pitchChange > abs(angleBtwn):
 		pitchChange = abs(angleBtwn)
-
 	newPitch = curPitch + (angleBtwn / abs(angleBtwn)) * pitchChange
 	return newPitch
